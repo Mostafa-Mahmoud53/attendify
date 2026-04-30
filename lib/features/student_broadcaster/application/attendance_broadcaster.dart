@@ -6,7 +6,13 @@ class AttendanceBroadcaster {
   final FlutterBlePeripheral _blePeripheral;
 
   Future<void> start() async {
-    await _blePeripheral.start();
+    await _blePeripheral.start(
+      advertiseData: AdvertiseData(
+        includeDeviceName: true,
+        localName: 'Attendify',
+        serviceUuids: const ['0000180D-0000-1000-8000-00805F9B34FB'],
+      ),
+    );
   }
 
   Future<void> stop() async {

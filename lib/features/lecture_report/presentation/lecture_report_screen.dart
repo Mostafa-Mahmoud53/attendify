@@ -77,9 +77,17 @@ class LectureReportScreen extends StatelessWidget {
     final excel = Excel.createExcel();
     final sheet = excel['Attendance'];
 
-    sheet.appendRow(const ['Student ID', 'Total Attendance', 'Grades']);
+    sheet.appendRow([
+      TextCellValue('Student ID'),
+      TextCellValue('Total Attendance'),
+      TextCellValue('Grades'),
+    ]);
     for (var i = 0; i < 10; i += 1) {
-      sheet.appendRow(['Student ${i + 1}', 8, 'A']);
+      sheet.appendRow([
+        TextCellValue('Student ${i + 1}'),
+        IntCellValue(8),
+        TextCellValue('A'),
+      ]);
     }
 
     final directory = await getApplicationDocumentsDirectory();
@@ -89,7 +97,9 @@ class LectureReportScreen extends StatelessWidget {
       return;
     }
     await file.writeAsBytes(bytes, flush: true);
-    await Share.shareXFiles([XFile(file.path)], text: 'Lecture report');
+    await SharePlus.instance.share(
+      ShareParams(files: [XFile(file.path)], text: 'Lecture report'),
+    );
 
     if (!context.mounted) {
       return;
