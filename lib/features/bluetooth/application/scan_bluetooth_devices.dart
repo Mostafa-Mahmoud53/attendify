@@ -1,0 +1,3 @@
+﻿class ScanBluetoothDevices {
+  const ScanBluetoothDevices();
+}

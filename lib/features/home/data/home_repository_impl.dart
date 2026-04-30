@@ -1,0 +1,3 @@
+﻿class HomeRepositoryImpl {
+  const HomeRepositoryImpl();
+}

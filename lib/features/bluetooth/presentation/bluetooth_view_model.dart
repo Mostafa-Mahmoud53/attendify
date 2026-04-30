@@ -1,0 +1,3 @@
+﻿class BluetoothViewModel {
+  const BluetoothViewModel();
+}

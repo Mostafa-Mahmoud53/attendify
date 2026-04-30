@@ -1,0 +1,3 @@
+﻿class StartAttendanceSession {
+  const StartAttendanceSession();
+}

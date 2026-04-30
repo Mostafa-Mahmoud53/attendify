@@ -1,0 +1,3 @@
+﻿class AttendanceRepositoryImpl {
+  const AttendanceRepositoryImpl();
+}

@@ -1,0 +1,3 @@
+﻿class BluetoothRepositoryImpl {
+  const BluetoothRepositoryImpl();
+}

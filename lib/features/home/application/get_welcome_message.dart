@@ -1,0 +1,3 @@
+﻿class GetWelcomeMessage {
+  const GetWelcomeMessage();
+}
