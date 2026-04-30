@@ -1,0 +1,3 @@
+class RoleRepositoryImpl {
+  const RoleRepositoryImpl();
+}

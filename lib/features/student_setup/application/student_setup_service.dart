@@ -1,0 +1,3 @@
+class StudentSetupService {
+  const StudentSetupService();
+}

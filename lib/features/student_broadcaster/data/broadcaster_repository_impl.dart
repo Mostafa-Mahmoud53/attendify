@@ -1,0 +1,3 @@
+class BroadcasterRepositoryImpl {
+  const BroadcasterRepositoryImpl();
+}

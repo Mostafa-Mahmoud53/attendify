@@ -1,0 +1,3 @@
+class DoctorDashboardService {
+  const DoctorDashboardService();
+}

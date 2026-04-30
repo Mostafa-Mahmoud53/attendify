@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import '../theme/theme_provider.dart';
+import '../storage/storage_service.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -14,6 +15,10 @@ void setupServiceLocator() {
 
   serviceLocator.registerLazySingleton<ThemeController>(
     () => ThemeController(),
+  );
+
+  serviceLocator.registerLazySingleton<StorageService>(
+    () => StorageService(),
   );
 }
 

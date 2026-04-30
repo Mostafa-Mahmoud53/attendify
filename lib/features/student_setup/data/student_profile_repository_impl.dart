@@ -1,0 +1,3 @@
+class StudentProfileRepositoryImpl {
+  const StudentProfileRepositoryImpl();
+}

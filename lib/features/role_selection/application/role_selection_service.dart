@@ -1,0 +1,3 @@
+class RoleSelectionService {
+  const RoleSelectionService();
+}

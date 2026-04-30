@@ -9,6 +9,7 @@ import 'core/theme/theme_provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
+  serviceLocator<StorageService>().init();
   serviceLocator<ThemeController>().load();
   runApp(const AttendifyApp());
 }
@@ -30,7 +31,7 @@ class AttendifyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: mode,
           onGenerateRoute: AppRouter.onGenerateRoute,
-          initialRoute: AppRouter.home,
+          initialRoute: AppRouter.roleSelection,
         );
       },
     );

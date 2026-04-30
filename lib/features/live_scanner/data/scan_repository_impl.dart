@@ -1,0 +1,3 @@
+class ScanRepositoryImpl {
+  const ScanRepositoryImpl();
+}

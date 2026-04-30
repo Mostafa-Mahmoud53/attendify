@@ -1,0 +1,3 @@
+class LectureReportRepositoryImpl {
+  const LectureReportRepositoryImpl();
+}

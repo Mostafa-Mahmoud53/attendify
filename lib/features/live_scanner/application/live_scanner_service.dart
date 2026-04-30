@@ -1,0 +1,3 @@
+class LiveScannerService {
+  const LiveScannerService();
+}

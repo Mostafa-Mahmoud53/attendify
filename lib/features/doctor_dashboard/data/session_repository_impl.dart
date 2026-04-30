@@ -1,0 +1,3 @@
+class SessionRepositoryImpl {
+  const SessionRepositoryImpl();
+}
