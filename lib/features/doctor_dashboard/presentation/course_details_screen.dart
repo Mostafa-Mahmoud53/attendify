@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:file_picker/file_picker.dart';
@@ -60,6 +62,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   void _showCreateSession(BuildContext context) {
+    FocusScope.of(context).unfocus();
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -72,6 +75,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
   void _handleSync() async {
     // Show sync overlay or snackbar
+    FocusScope.of(context).unfocus();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Starting bulk sync for this course...')),
     );
@@ -224,6 +228,7 @@ class _AbsenceWarningsDialogState extends State<_AbsenceWarningsDialog> {
   }
 
   Future<void> _generateReport() async {
+    FocusScope.of(context).unfocus();
     if (_selectedFilePath == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select a Master Excel file.')),
@@ -323,7 +328,7 @@ class _RecentSessionsList extends StatelessWidget {
         final sessions = box.toMap().entries.where((e) => e.value['courseId'] == courseId).toList();
         
         if (sessions.isEmpty) {
-          return const Center(child: Text('No sessions for this course.'));
+          return const _EmptyState();
         }
 
         return Column(
@@ -367,6 +372,12 @@ class _CreateSessionSheetState extends State<_CreateSessionSheet> {
   final TextEditingController _controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _controller.text = (Random().nextInt(90) + 10).toString();
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -395,7 +406,7 @@ class _CreateSessionSheetState extends State<_CreateSessionSheet> {
               suffixIcon: IconButton(
                 icon: const Icon(Icons.shuffle),
                 onPressed: () {
-                  final code = (DateTime.now().millisecondsSinceEpoch % 900) + 100;
+                  final code = Random().nextInt(90) + 10;
                   _controller.text = code.toString();
                 },
               ),
@@ -412,6 +423,7 @@ class _CreateSessionSheetState extends State<_CreateSessionSheet> {
   }
 
   void _startSession() async {
+    FocusScope.of(context).unfocus();
     final code = _controller.text.trim();
     if (code.isEmpty) return;
 
@@ -424,5 +436,29 @@ class _CreateSessionSheetState extends State<_CreateSessionSheet> {
         arguments: {'code': code, 'courseId': widget.courseId},
       );
     }
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    final color = const Color(0xFF558B80).withOpacity(0.55);
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.folder_open, size: 64, color: color),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            'No data available yet',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: color,
+                ),
+          ),
+        ],
+      ),
+    );
   }
 }

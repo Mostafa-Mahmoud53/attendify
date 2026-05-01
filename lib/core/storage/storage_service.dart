@@ -28,6 +28,11 @@ class StorageService {
     await box.put(StorageKeys.userRole, role);
   }
 
+  Future<void> clearUserRole() async {
+    final box = await _openStringBox(StorageKeys.userRole);
+    await box.delete(StorageKeys.userRole);
+  }
+
   Future<String?> readUserRole() async {
     final box = await _openStringBox(StorageKeys.userRole);
     return box.get(StorageKeys.userRole);
@@ -185,5 +190,28 @@ class StorageService {
     for (final key in sessionsToDelete) {
       await sessionsBox.delete(key);
     }
+  }
+
+  Future<void> clearAllData() async {
+    final roleBox = await _openStringBox(StorageKeys.userRole);
+    await roleBox.delete(StorageKeys.userRole);
+
+    final profileBox = await _openStringBox(StorageKeys.studentProfileBox);
+    await profileBox.clear();
+
+    final sessionsBox = await _openListBox(StorageKeys.sessionsBox);
+    await sessionsBox.clear();
+
+    final studentLinksBox = await _openListBox(StorageKeys.studentLinksBox);
+    await studentLinksBox.clear();
+
+    final registryBox = await _openMapBox(StorageKeys.studentRegistry);
+    await registryBox.clear();
+
+    final attendanceBox = await _openMapBox(StorageKeys.attendanceSessions);
+    await attendanceBox.clear();
+
+    final coursesBox = await _openMapBox(StorageKeys.coursesBox);
+    await coursesBox.clear();
   }
 }

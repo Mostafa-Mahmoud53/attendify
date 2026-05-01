@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../core/constants/app_spacing.dart';
 import '../../../core/di/service_locator.dart';
+import '../../../core/routing/app_router.dart';
 import '../../../core/storage/storage_service.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/widgets/base_screen.dart';
@@ -18,6 +19,13 @@ class DoctorDashboardScreen extends StatelessWidget {
 
     return BaseScreen(
       title: 'Lectures Dashboard',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.logout),
+          tooltip: 'Log out',
+          onPressed: () => _confirmLogout(context),
+        ),
+      ],
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddCourseDialog(context),
         backgroundColor: const Color(0xFF558B80),
@@ -123,6 +131,62 @@ class DoctorDashboardScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _confirmLogout(BuildContext context) async {
+    const primaryColor = Color(0xFF558B80);
+    const dialogBackground = Color(0xFF1E1E1E);
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => Theme(
+        data: ThemeData.dark().copyWith(
+          colorScheme: const ColorScheme.dark(
+            primary: primaryColor,
+            background: dialogBackground,
+            surface: dialogBackground,
+          ),
+          dialogTheme: DialogThemeData(
+            backgroundColor: dialogBackground,
+            shape: RoundedRectangleBorder(
+              borderRadius: AppSpacing.borderRadiusLg,
+            ),
+          ),
+        ),
+        child: AlertDialog(
+          title: const Text('Log out'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(
+                'Cancel',
+                style: const TextStyle(color: Colors.white70),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text(
+                'Log out',
+                style: const TextStyle(color: primaryColor),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (shouldLogout != true || !context.mounted) {
+      return;
+    }
+
+    await serviceLocator<StorageService>().clearAllData();
+    if (!context.mounted) {
+      return;
+    }
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      AppRouter.roleSelection,
+      (_) => false,
     );
   }
 }
@@ -234,6 +298,7 @@ class _AddCourseDialogState extends State<_AddCourseDialog> {
   }
 
   void _addCourse() async {
+    FocusScope.of(context).unfocus();
     final name = _nameController.text.trim();
     final code = _codeController.text.trim();
     if (name.isEmpty || code.isEmpty) return;

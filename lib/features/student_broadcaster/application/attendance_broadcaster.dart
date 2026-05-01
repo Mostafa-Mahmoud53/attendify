@@ -27,6 +27,23 @@ class AttendanceBroadcaster {
     );
   }
 
+  Future<bool> isReady() async {
+    final supported = await _blePeripheral.isSupported;
+    if (!supported) {
+      return false;
+    }
+
+    final isBluetoothOn = await _blePeripheral.isBluetoothOn;
+    if (!isBluetoothOn) {
+      return false;
+    }
+
+    final permission = await _blePeripheral.hasPermission();
+    return permission == BluetoothPeripheralState.granted ||
+        permission == BluetoothPeripheralState.ready ||
+        permission == BluetoothPeripheralState.limited;
+  }
+
   Future<void> stop() async {
     await _blePeripheral.stop();
   }
